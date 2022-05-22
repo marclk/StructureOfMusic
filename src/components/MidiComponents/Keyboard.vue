@@ -9,7 +9,7 @@
 	section
 		.container
 			each octave in [1,2,3,4,5,6,7]
-				each note in [0,1,2,3,4,5,6,7,8,9,10,11] 
+				each note in [0,1,2,3,4,5,6,7,8,9,10,11]
 					- var input = note + 1 ;
 					if note == 0 || note == 2 || note == 4 || note == 5 || note == 7 || note == 9 || note == 11 
 						.white_key.key(style={'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))'} data-note=`${note}` data-octave=`${octave}` v-on:mousedown.prevent=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`sendSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`) 

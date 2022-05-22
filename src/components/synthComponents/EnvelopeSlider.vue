@@ -93,7 +93,7 @@ export default {
 		box-shadow: inset 0.1rem -0.1rem 0.1rem rgba(black,0.5),
 			inset -0.1rem 0.1rem 0.1rem rgba(white,0.5);
 		height: 1rem;
-		width: 43rem;
+		width: calc(100% - 3.5rem);
 	}
 
 	input[type=range].slider::-webkit-slider-thumb { 

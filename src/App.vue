@@ -1,10 +1,16 @@
 <template>
   <div id="app">
-    <app-general-options @options="setGeneralOptions" ></app-general-options>
-    <app-poly-synth-a ref="instrumentA" :effect="addedEffect" :effectPacket="addedEffectPacket" :generalOptionsPacket="addedGeneralOptionsPacket"></app-poly-synth-a>
-    <app-midi-handler ref="midiDevice" @onDeviceInput='onDeviceInput'></app-midi-handler>
-    <app-effect-rack @initializeEffects="initializeEffects"></app-effect-rack>
-    <app-keyboard ref="keyboard" @onKeyboardInput='onKeyboardInput'></app-keyboard>
+    <div id="nav">
+
+    </div>
+    <div id="content">
+      <app-general-options @options="setGeneralOptions" ></app-general-options>
+      <app-poly-synth-a ref="instrumentA" :effect="addedEffect" :effectPacket="addedEffectPacket" :generalOptionsPacket="addedGeneralOptionsPacket"></app-poly-synth-a>
+      <app-midi-handler ref="midiDevice" @onDeviceInput='onDeviceInput'></app-midi-handler>
+      <app-effect-rack @initializeEffects="initializeEffects"></app-effect-rack>
+      <app-keyboard ref="keyboard" @onKeyboardInput='onKeyboardInput'></app-keyboard>
+    </div>
+    
   </div>
 </template>
 
@@ -97,11 +103,16 @@ body{
   color: white!important;
 }
  #app{
-  width: 80%;
+  width: 100%;
   margin: 3.5rem auto;
   padding: 1rem!important;
   background:  #121212;
-  
+ }
+ 
+ #content{
+   width: 80%;
+   margin-left: auto;
+   margin-right: 0;
  }
 
  .margin-1rem{
