@@ -8,13 +8,14 @@
 
 	section
 		.container
-			each octave in [1,2,3,4,5,6,7]
+			each octave in [1,2,3,4,5,6]
 				each note in [0,1,2,3,4,5,6,7,8,9,10,11]
 					- var input = note + 1 ;
+					- var noteName = ['"C"', '"C#"', '"D"', '"D#"', '"E"', '"F"', '"F#"', '"G"', '"G#"', '"A"', '"A#"', '"B"'];
 					if note == 0 || note == 2 || note == 4 || note == 5 || note == 7 || note == 9 || note == 11 
-						.white_key.key(style={'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))'} data-note=`${note}` data-octave=`${octave}` v-on:mousedown.prevent=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`sendSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`) 
+						.white_key.key(style={'--note-name':  `${noteName[note]}`, 'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))' } data-note=`${note}` data-octave=`${octave}` data-noteName=`${noteName[note]}` v-on:mousedown.prevent=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`sendSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`) 
 					else if  note == 1 || note == 3 || note == 6 || note == 8 || note == 10
-						.black_key.key(style={'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))' } data-note=`${note}` data-octave=`${octave}` v-on:mousedown=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`stopSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`) 
+						.black_key.key(style={'--note-name':  `${noteName[note]}`, 'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))' } data-note=`${note}` data-octave=`${octave}` data-noteName=`${noteName[note]}` v-on:mousedown=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`stopSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`) 
 	
 </template>
 
@@ -85,6 +86,9 @@ export default {
 					// console.log("BLACK NOTE PLAYED ON MIDI: " + note, octave);
 				}
 			})();
+		},
+		practiceNote(){
+			this.$emit('playRandomNote');
 		}
 	},
 	created(){
@@ -168,6 +172,13 @@ section {
 			inset 0 0 1rem  rgba(255, 131, 0, 1);
 }
 
+.white_key.active::before{ 
+	content: var(--note-name);
+	display: block;
+	margin-top: -30px;
+	text-align: center;
+}
+
 .white_key.active {
   height: 98px;
   border-radius: 3px;
@@ -224,6 +235,13 @@ section {
 			inset 0 0 1rem  rgba(255, 0, 204, 1);
 }
 
+.black_key.active::before{ 
+	content: var(--note-name);
+	display: block;
+	text-align: center;
+	margin-top: -30px;
+}
+
 @keyframes pulseWhite{
 	0% {
 		
@@ -252,7 +270,7 @@ section {
 	}
 
 	100% {
-		
+
 		transform: scale(1.0);
 		box-shadow:
 		0 0 .1rem rgba(255, 255, 255, 1),

@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<section class="lesson-heading">
-			<span class="lesson-heading-label">Lessons</span>
+			<span class="lesson-heading-label">Practice!</span>
 			<h3 class="lesson-heading-title">{{number}}: {{title}}</h3>
 			<p class="lesson-heading-paragraph">{{paragraph}}</p>
 		</section>
@@ -9,7 +9,7 @@
 			<youtube :video-id="videoId" :player-vars="playerVars" autoplay="0" ref="youtube" @playing="playing"></youtube>
 		</section>
 		<section>
-			<button @click="startPractice()">Practice!</button>
+			<button @click="startPractice()">Next Lesson!</button>
 		</section>
 	</section>
 </template>
@@ -48,7 +48,7 @@ export default{
 		
 		startPractice(){
 			console.log(this.id + "= ID!!!!!!!!!!!!!!!!!!!!");
-			this.$emit('setCurrentPage',"app-practice-page", this.id);
+			this.$emit('setCurrentPage', ('app-practice-page', this.id));
 		}
 	},
 	mounted(){
