@@ -87,9 +87,7 @@ export default {
 				}
 			})();
 		},
-		practiceNote(){
-			this.$emit('playRandomNote');
-		}
+		
 	},
 	created(){
 		const keyCodes = ['a','w','s','e','d','f','t','g','y','h','u','j'];
@@ -135,6 +133,7 @@ section {
   padding-right: 10px;
   padding-bottom: 5px;
 	height: 100%;
+	padding-top: 30px;
 }
 
 .key {

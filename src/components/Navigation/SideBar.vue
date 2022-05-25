@@ -2,7 +2,7 @@
 	<section>
 
 		<header>
-			<nav>hahaha</nav>
+			<nav style="text-align: center">Structure of Sound</nav>
 		</header>
 	
 	</section>

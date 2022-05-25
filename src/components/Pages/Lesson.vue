@@ -9,7 +9,7 @@
 			<youtube :video-id="videoId" :player-vars="playerVars" autoplay="0" ref="youtube" @playing="playing"></youtube>
 		</section>
 		<section>
-			<button @click="startPractice()">Practice!</button>
+			<button class="button" @click="startPractice()">Practice!</button>
 		</section>
 	</section>
 </template>
@@ -43,7 +43,7 @@ export default{
 	},
 	methods: {
 		setVideoTiming(){
-			this.$refs.youtube.player.loadVideoById({'videoId': 'rgaTLrZGlk0', 'autoplay': 0, 'startSeconds': 156, 'endSeconds': 612});
+			this.$refs.youtube.player.cueVideoById({'videoId': 'rgaTLrZGlk0', 'autoplay': 0, 'startSeconds': 156, 'endSeconds': 612});
 		},
 		
 		startPractice(){
@@ -59,6 +59,22 @@ export default{
 
 </script>
 
-<style>
+<style lang="scss">
+	.lesson-heading{
+		padding: 5rem 0 3rem 0;
+	}
 
+	.lesson-heading-label{
+		background-color: rgb(170,25,25);
+	}
+
+	.lesson-heading-title{
+		font-size: 2rem;
+		font-weight: 700;
+	}
+
+	.lesson-heading-paragraph{
+		width: 80%;
+		font-weight:700;
+	}
 </style> 

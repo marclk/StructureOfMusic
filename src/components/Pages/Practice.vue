@@ -6,10 +6,10 @@
 			<p class="lesson-heading-paragraph">{{paragraph}}</p>
 		</section>
 		<section class="lesson-content">
-			<youtube :video-id="videoId" :player-vars="playerVars" autoplay="0" ref="youtube" @playing="playing"></youtube>
+			<!-- <youtube :video-id="videoId" :player-vars="playerVars" autoplay="0" ref="youtube" @playing="playing"></youtube> -->
 		</section>
 		<section>
-			<button @click="startPractice()">Next Lesson!</button>
+			<button class="button" @click="practiceNote()">play note</button>
 		</section>
 	</section>
 </template>
@@ -43,12 +43,16 @@ export default{
 	},
 	methods: {
 		setVideoTiming(){
-			this.$refs.youtube.player.loadVideoById({'videoId': 'rgaTLrZGlk0', 'autoplay': 0, 'startSeconds': 156, 'endSeconds': 612});
+			this.$refs.youtube.player.cueVideoById({'videoId': 'rgaTLrZGlk0', 'autoplay': 0, 'startSeconds': 156, 'endSeconds': 612});
 		},
 		
-		startPractice(){
+		nextLesson(){
 			console.log(this.id + "= ID!!!!!!!!!!!!!!!!!!!!");
 			this.$emit('setCurrentPage', ('app-practice-page', this.id));
+		},
+
+		practiceNote(){
+			this.$emit('playRandomNote');
 		}
 	},
 	mounted(){

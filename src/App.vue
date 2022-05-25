@@ -4,8 +4,7 @@
       <app-side-bar-nav></app-side-bar-nav>
     </div>
     <div id="content">
-      <!-- <app-lesson-page number="1" title="Notes" ></app-lesson-page> -->
-      <component @setCurrentPage='setCurrentPage' :is="currentPage" v-bind="cmpProps"/>
+      <component @setCurrentPage='setCurrentPage' @playRandomNote = "playRandomNote" :is="currentPage" v-bind="cmpProps"/>
       <div id="keyboard">
         <app-keyboard ref="keyboard" @onKeyboardInput='onKeyboardInput' @playRandomNote='playRandomNote'></app-keyboard>
       </div>
@@ -156,7 +155,8 @@
             title: practice[this.pageContent].title,
             paragraph: practice[this.pageContent].paragraph,
             videoData: practice[this.pageContent].videoData,
-            practiceLink: practice[this.pageContent].practiceLink
+            practiceLink: practice[this.pageContent].practiceLink,
+            
           }; 
         }else{
           return false;
@@ -204,6 +204,13 @@ body{
 
  .margin-1rem{
    margin: 1rem;
+ }
+
+ .button{
+   padding: 1rem;
+   margin: 1rem;
+   background-color: black;
+   border: 2px solid white;
  }
 
  .display-none{
