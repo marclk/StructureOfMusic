@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <app-side-bar-nav></app-side-bar-nav>
+      <app-side-bar-nav @setCurrentPage='setCurrentPage'></app-side-bar-nav>
     </div>
     <div id="content">
       <component @setCurrentPage='setCurrentPage' @playRandomNote = "playRandomNote" :is="currentPage" v-bind="cmpProps"/>
@@ -111,7 +111,6 @@
       setCurrentPage(cmp, contentId){
         this.currentPage = cmp;
         this.pageContent = contentId;
-        
       },
 
       getJsonObject(jsonObject){

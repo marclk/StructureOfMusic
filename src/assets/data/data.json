@@ -7,20 +7,64 @@
 				"videoData": {
 					"VideoId": "rgaTLrZGlk0",
 					"startSeconds": "156",
-					"endSeconds": "612"
+					"endSeconds": "289"
 				},
 				"practiceLink": "Notes"
 			},
 			{"id": 1,
-				"number": "1", 
-				"title": "Notes", 
+				"number": "2", 
+				"title": "Scales", 
+				"paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+				"videoData": {
+					"VideoId": "rgaTLrZGlk0",
+					"startSeconds": "290",
+					"endSeconds": "612"
+				},
+				"practiceLink": "Notes"
+			},
+			{"id": 2,
+				"number": "3", 
+				"title": "Chords", 
+				"paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+				"videoData": {
+					"VideoId": "rgaTLrZGlk0",
+					"startSeconds": "612",
+					"endSeconds": "718"
+				},
+				"practiceLink": "Notes"
+			},
+			{"id": 3,
+				"number": "4", 
+				"title": "Minor & Major", 
+				"paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+				"videoData": {
+					"VideoId": "rgaTLrZGlk0",
+					"startSeconds": "718",
+					"endSeconds": "935"
+				},
+				"practiceLink": "Notes"
+			},
+			{"id": 4,
+				"number": "5", 
+				"title": "Melodies", 
+				"paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+				"videoData": {
+					"VideoId": "rgaTLrZGlk0",
+					"startSeconds": "612",
+					"endSeconds": ""
+				},
+				"practiceLink": "Melodies"
+			},
+			{"id": 5,
+				"number": "6", 
+				"title": "Rhythm", 
 				"paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				"videoData": {
 					"VideoId": "rgaTLrZGlk0",
 					"startSeconds": "156",
 					"endSeconds": "612"
 				},
-				"practiceLink": "Notes"
+				"practiceLink": "Rhythm"
 			}
 		],
 

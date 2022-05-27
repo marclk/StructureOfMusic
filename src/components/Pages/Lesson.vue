@@ -6,7 +6,7 @@
 			<p class="lesson-heading-paragraph">{{paragraph}}</p>
 		</section>
 		<section class="lesson-content">
-			<youtube :video-id="videoId" :player-vars="playerVars" autoplay="0" ref="youtube" @playing="playing"></youtube>
+			<youtube :video-id="videoId" :player-vars="playerVars" controls="0" rel="0" autoplay="0" ref="youtube" @playing="playing"></youtube>
 		</section>
 		<section>
 			<button class="button" @click="startPractice()">Practice!</button>
@@ -38,22 +38,28 @@ export default{
 			videoId: this.videoData.videoId, //rgaTLrZGlk0
 			playerVars:{
 				autoplay: 0,
+				controls: 0,
+				rel: 0,
 			}
 		};
 	},
 	methods: {
 		setVideoTiming(){
-			this.$refs.youtube.player.cueVideoById({'videoId': 'rgaTLrZGlk0', 'autoplay': 0, 'startSeconds': 156, 'endSeconds': 612});
+			this.$refs.youtube.player.cueVideoById({'videoId': this.videoData.videoId, 'autoplay': 0, 'startSeconds': this.videoData.startSeconds, 'endSeconds': this.videoData.endSeconds});
 		},
 		
 		startPractice(){
-			console.log(this.id + "= ID!!!!!!!!!!!!!!!!!!!!");
 			this.$emit('setCurrentPage',"app-practice-page", this.id);
 		}
 	},
 	mounted(){
 		this.setVideoTiming();
 		console.log("Triggered!")
+	},
+	watch: {
+		id(){
+			this.setVideoTiming();
+		}
 	}
 }
 
