@@ -1,16 +1,22 @@
 <template>
-	<section>
-		<section class="lesson-heading">
-			<span class="lesson-heading-label">Practice!</span>
-			<h3 class="lesson-heading-title">{{number}}: {{title}}</h3>
-			<p class="lesson-heading-paragraph">{{paragraph}}</p>
+	<section class="practice">
+		<section class="practice-heading">
+			<section class="practice-heading-links">
+				<span class="practice-heading-links-label">Practice!</span>
+				<span class="practice-heading-links-back" @click="backToLesson()"><a href="#"> previous lesson</a></span>
+				<span> / </span>
+				<span class="practice-heading-links-next" @click="nextLesson()"><a href="#">next lesson</a></span>
+			</section>
+			<h3 class="practice-heading-title">{{number}}: {{title}}</h3>
+			<p class="practice-heading-paragraph">{{paragraph}}</p>
 		</section>
-		<section class="lesson-content">
-			<!-- <youtube :video-id="videoId" :player-vars="playerVars" autoplay="0" ref="youtube" @playing="playing"></youtube> -->
+		<section class="practice-content"> 
+
 		</section>
 		<section>
-			<button class="button" @click="practiceNote()">play note</button>
+			
 		</section>
+		
 	</section>
 </template>
 
@@ -47,8 +53,12 @@ export default{
 		},
 		
 		nextLesson(){
-			console.log(this.id + "= ID!!!!!!!!!!!!!!!!!!!!");
-			this.$emit('setCurrentPage', ('app-practice-page', this.id));
+			let nextId = parseInt(this.id+1);
+			this.$emit('setCurrentPage', 'app-lesson-page', nextId);
+		},
+
+		backToLesson(){
+			this.$emit('setCurrentPage', 'app-lesson-page', this.id);
 		},
 
 		practiceNote(){
@@ -64,5 +74,31 @@ export default{
 </script>
 
 <style>
+
+	.practice{
+		width: 80%;
+	}
+
+	.practice-heading{
+		padding: 5rem 0 3rem 0;
+	}
+
+	.practice-heading-links-label{
+		background-color: rgb(170,25,25);
+	}
+
+	.practice-heading-title{
+		font-size: 2rem;
+		font-weight: 700;
+	}
+
+	.practice-heading-paragraph{
+		font-weight:500;
+	}
+
+	.practice-content{
+		border: 1px solid white;
+		margin: 0 1rem;
+	}
 
 </style> 

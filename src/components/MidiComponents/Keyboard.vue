@@ -9,7 +9,7 @@
 	section
 		.container
 			each octave in [1,2,3,4,5,6]
-				each note in [0,1,2,3,4,5,6,7,8,9,10,11]
+				each note in [0,1,2,3,4,5,6,7,8,9,10,11,]
 					- var input = note + 1 ;
 					- var noteName = ['"C"', '"C#"', '"D"', '"D#"', '"E"', '"F"', '"F#"', '"G"', '"G#"', '"A"', '"A#"', '"B"'];
 					if note == 0 || note == 2 || note == 4 || note == 5 || note == 7 || note == 9 || note == 11 
@@ -90,24 +90,37 @@ export default {
 		
 	},
 	created(){
-		const keyCodes = ['a','w','s','e','d','f','t','g','y','h','u','j'];
-		const notes = ['0','1','2','3','4','5','6','7','8','9','10','11'];
+		const keyCodes = ['q','2','w','3','e','r','5','t','6','y','7','u','i','9','o','0','p'];
+		const notes = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
 		
 		window.addEventListener('keydown', (e) => {
 
 			for(let i = 0; i < keyCodes.length; i++){
-				if(e.key == keyCodes[i] && e.repeat === false){
-					this.stopAnimation();
-					this.$emit('onKeyboardInput', {octave: 4, note: notes[i], velocity: 127 });
+				if(e.key.toLowerCase() == keyCodes[i] && e.repeat === false){
+					this.stopAnimation();i
+					if(i <= 11){
+						this.$emit('onKeyboardInput', {octave: 4, note: notes[i], velocity: 127 });
+					}else{
+						let convertNote = {12: 0, 13: 1, 14: 2, 15: 3, 16: 4}
+						console.log();
+						this.$emit('onKeyboardInput', {octave: 5, note: convertNote[notes[i]], velocity: 127 });
+						
+					}
 				}
 			}
 		});
 
 		window.addEventListener('keyup', (e) => {
 			for(let i = 0; i < keyCodes.length; i++){
-				if(e.key == keyCodes[i]){
+				if(e.key.toLowerCase() == keyCodes[i]){
 					
-					this.$emit('onKeyboardInput', {octave: 4, note: notes[i], velocity: 0 });
+					if(i <= 11){
+							this.$emit('onKeyboardInput', {octave: 4, note: notes[i], velocity: 0 });
+						}else{
+							let convertNote = {12: 0, 13: 1, 14: 2, 15: 3, 16: 4}
+							console.log(convertNote[notes[i]]);
+							this.$emit('onKeyboardInput', {octave: 5, note: convertNote[notes[i]], velocity: 0 });
+						}
 				}
 			}
 		});

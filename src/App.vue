@@ -109,6 +109,7 @@
       },
       
       setCurrentPage(cmp, contentId){
+        console.log(contentId);
         this.currentPage = cmp;
         this.pageContent = contentId;
       },
@@ -215,6 +216,16 @@ body{
  .display-none{
    display: none;
  }
+
+ .v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 </style>
 
 

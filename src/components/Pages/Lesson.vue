@@ -1,7 +1,13 @@
 <template>
 	<section>
 		<section class="lesson-heading">
-			<span class="lesson-heading-label">Lessons</span>
+			<section class="practice-heading-links">
+				<span class="practice-heading-links-label">Lessons</span>
+				
+				<span v-if="this.id > 0" class="practice-heading-links-back" @click="backToLesson()"><a href="#"> previous lesson</a></span>
+				<span v-if="this.id < 5"> / </span>
+				<span class="practice-heading-links-next" v-if="this.id < 5" @click="nextLesson()"><a href="#">next lesson</a></span>
+			</section>
 			<h3 class="lesson-heading-title">{{number}}: {{title}}</h3>
 			<p class="lesson-heading-paragraph">{{paragraph}}</p>
 		</section>
@@ -50,7 +56,16 @@ export default{
 		
 		startPractice(){
 			this.$emit('setCurrentPage',"app-practice-page", this.id);
-		}
+		},
+
+		nextLesson(){
+			let nextId = parseInt(this.id+1);
+			this.$emit('setCurrentPage', 'app-lesson-page', nextId);
+		},
+
+		backToLesson(){
+			this.$emit('setCurrentPage', 'app-lesson-page', parseInt(this.id-1));
+		},
 	},
 	mounted(){
 		this.setVideoTiming();
@@ -70,7 +85,7 @@ export default{
 		padding: 5rem 0 3rem 0;
 	}
 
-	.lesson-heading-label{
+	.lesson-heading-links-label{
 		background-color: rgb(170,25,25);
 	}
 
