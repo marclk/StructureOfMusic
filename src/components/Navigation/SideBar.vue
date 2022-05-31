@@ -66,7 +66,6 @@
 					case 'home':
 						break;
 					case 'lessons':
-						console.log("Page:" + page + ", lessonNum:" + lessonNum)
 						this.$emit('setCurrentPage', 'app-lesson-page', lessonNum);
 						break;
 					case 'playground':

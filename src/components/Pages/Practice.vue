@@ -12,9 +12,7 @@
 		</section>
 		<section class="practice-content"> 
 			<template>
-				<app-exercise-one @practiceNote="practiceNote">
-
-				</app-exercise-one>
+				<app-exercise></app-exercise>
 			</template>
 		</section>
 	</section>
@@ -24,7 +22,7 @@
 import Vue from 'vue';
 import VueYoutube from 'vue-youtube';
 
-import ExerciseOne from '../Exercises/ExerciseOne.vue';
+import Exercise from '../Exercises/Exercise.vue';
 
 Vue.use(VueYoutube)
 
@@ -50,7 +48,7 @@ export default{
 		};
 	},
 	components: {
-		appExerciseOne: ExerciseOne
+		appExercise: Exercise
 	},
 	methods: {
 		setVideoTiming(){
@@ -59,12 +57,10 @@ export default{
 		
 		nextLesson(){
 			let nextId = parseInt(this.id+1);
-			console.log("this ID: " + this.id)
 			this.$emit('setCurrentPage', 'app-lesson-page', nextId);
 		},
 
 		backToLesson(){
-			console.log("this ID: " + this.id)
 			this.$emit('setCurrentPage', 'app-lesson-page', this.id);
 		},
 
