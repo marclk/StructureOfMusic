@@ -11,18 +11,18 @@
 			<p class="practice-heading-paragraph">{{paragraph}}</p>
 		</section>
 		<section class="practice-content"> 
-
+			<template>
+				<app-exercise></app-exercise>
+			</template>
 		</section>
-		<section>
-			
-		</section>
-		
 	</section>
 </template>
 
 <script>
 import Vue from 'vue';
 import VueYoutube from 'vue-youtube';
+
+import Exercise from '../Exercises/Exercise.vue';
 
 Vue.use(VueYoutube)
 
@@ -46,6 +46,9 @@ export default{
 				autoplay: 0,
 			}
 		};
+	},
+	components: {
+		appExercise: Exercise
 	},
 	methods: {
 		setVideoTiming(){

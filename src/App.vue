@@ -208,7 +208,6 @@ body{
 
  .button{
    padding: 1rem;
-   margin: 1rem;
    background-color: black;
    border: 2px solid white;
  }
