@@ -4,7 +4,7 @@
       <app-side-bar-nav @setCurrentPage='setCurrentPage'></app-side-bar-nav>
     </div>
     <div id="content">
-      <component @setCurrentPage='setCurrentPage' @playRandomNote = "playRandomNote" :is="currentPage" v-bind="cmpProps"/>
+      <component :is="currentPage" v-bind="cmpProps" @setCurrentPage='setCurrentPage' @playRandomNote = "playRandomNote" />
       <div id="keyboard">
         <app-keyboard ref="keyboard" @onKeyboardInput='onKeyboardInput' @playRandomNote='playRandomNote'></app-keyboard>
       </div>
@@ -99,7 +99,7 @@
       },
 
       initializeEffects(effects, effectPacket){
-        console.log(effects);
+        // console.log(effects);
         this.addedEffect = effects;
         this.addedEffectPacket = effectPacket;
       },
@@ -109,7 +109,6 @@
       },
       
       setCurrentPage(cmp, contentId){
-        console.log(contentId);
         this.currentPage = cmp;
         this.pageContent = contentId;
       },
@@ -124,13 +123,13 @@
     },
 
     mounted(){
-      var lessonOne = this.getJsonObjectById(Data["Practice"], 0);
-      var lessons = this.getJsonObject(Data["Lessons"]);
-      console.log(lessonOne);
-      console.log(lessons)
+      // var lessonOne = this.getJsonObjectById(Data["Practice"], 0);
+      // var lessons = this.getJsonObject(Data["Lessons"]);
+      // console.log(lessonOne);
+      // console.log(lessons)
       const midi = this.$refs.midiDevice;
       midi.start().then(() => {
-        console.log("Started!");
+        // console.log("Started!");
       }).catch(console.error);
     },
 

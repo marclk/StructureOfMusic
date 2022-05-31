@@ -3,7 +3,6 @@
 		<section class="lesson-heading">
 			<section class="practice-heading-links">
 				<span class="practice-heading-links-label">Lessons</span>
-				
 				<span v-if="this.id > 0" class="practice-heading-links-back" @click="backToLesson()"><a href="#"> previous lesson</a></span>
 				<span v-if="this.id < 5"> / </span>
 				<span class="practice-heading-links-next" v-if="this.id < 5" @click="nextLesson()"><a href="#">next lesson</a></span>

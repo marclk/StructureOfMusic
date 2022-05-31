@@ -9,12 +9,12 @@
 				<button class="button" @click="practiceNote()">play note</button>
 			</section>
 		</section>
-		<section class="exercise_divider">
-
+		<!-- <section class="exercise_divider">
+			
 		</section>
 		<section class="exercise_two">
 
-		</section>
+		</section> -->
 		<section>
 
 		</section>
@@ -23,9 +23,6 @@
 
 <script>
 export default {
-	data(){
-
-	},
 	methods:{
 		practiceNote(){
 			this.$emit('practiceNote');
@@ -47,12 +44,8 @@ export default {
 	}
 
 	.exercise_one{
-		width: 48%;
+		// width: 48%;
 		text-align: center;
-
-		&_heading{
-			
-		}
 
 		&_button_wrapper{
 			margin: 1rem;
