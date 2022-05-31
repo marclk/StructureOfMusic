@@ -4,6 +4,7 @@
       <app-side-bar-nav @setCurrentPage='setCurrentPage'></app-side-bar-nav>
     </div>
     <div id="content">
+      <p>{{store.count}}</p>
       <component :is="currentPage" v-bind="cmpProps" @setCurrentPage='setCurrentPage' @playRandomNote = "playRandomNote" />
       <div id="keyboard">
         <app-keyboard ref="keyboard" @onKeyboardInput='onKeyboardInput' @playRandomNote='playRandomNote'></app-keyboard>
@@ -23,6 +24,7 @@
 
 <script>
   import * as Tone from 'tone';
+  import { useExercisesStore } from './stores/exercises';
 
   import Data from './assets/data/data.json';
   
@@ -40,7 +42,9 @@
   import 'bulma/css/bulma.css';
 
   export default {
-
+    setup(){
+      const store = useExercisesStore();
+    },
     data(){
       return{
         currentPage: 'app-lesson-page',
