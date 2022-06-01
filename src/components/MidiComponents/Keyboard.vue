@@ -4,23 +4,39 @@
 		- When mousedown and mouseup on another key, mouse up doesnt fire for the mousedown 
 
 -->
+<script setup>
+
+
+
+</script>
+
 <template lang="pug">
 
-	section
-		.container
-			each octave in [1,2,3,4,5,6]
-				each note in [0,1,2,3,4,5,6,7,8,9,10,11,]
-					- var input = note + 1 ;
-					- var noteName = ['"C"', '"C#"', '"D"', '"D#"', '"E"', '"F"', '"F#"', '"G"', '"G#"', '"A"', '"A#"', '"B"'];
-					if note == 0 || note == 2 || note == 4 || note == 5 || note == 7 || note == 9 || note == 11 
-						.white_key.key(style={'--note-name':  `${noteName[note]}`, 'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))' } data-note=`${note}` data-octave=`${octave}` data-noteName=`${noteName[note]}` v-on:mousedown.prevent=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`sendSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`) 
-					else if  note == 1 || note == 3 || note == 6 || note == 8 || note == 10
-						.black_key.key(style={'--note-name':  `${noteName[note]}`, 'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))' } data-note=`${note}` data-octave=`${octave}` data-noteName=`${noteName[note]}` v-on:mousedown=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`stopSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`) 
+section
+	.container
+		each octave in [1,2,3,4,5,6]
+			each note in [0,1,2,3,4,5,6,7,8,9,10,11,]
+				- var input = note + 1 ;
+				- var noteName = ['"C"', '"C#"', '"D"', '"D#"', '"E"', '"F"', '"F#"', '"G"', '"G#"', '"A"', '"A#"', '"B"'];
+				if note == 0 || note == 2 || note == 4 || note == 5 || note == 7 || note == 9 || note == 11 
+					.white_key.key(style={'--note-name':  `${noteName[note]}`, 'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))' } data-note=`${note}` data-octave=`${octave}` data-noteName=`${noteName[note]}` v-on:mousedown.prevent=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`sendSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`) 
+				else if  note == 1 || note == 3 || note == 6 || note == 8 || note == 10
+					.black_key.key(style={'--note-name':  `${noteName[note]}`, 'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))' } data-note=`${note}` data-octave=`${octave}` data-noteName=`${noteName[note]}` v-on:mousedown=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`stopSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`) 
 	
 </template>
 
+
+
 <script>
+import { useExerciseStore } from '@/stores/exercise';
 export default {
+	setup(){
+		const store = useExerciseStore();
+
+		return{
+			store
+		}
+	},
 	data(){
 		return{
 			octave: null,
@@ -63,6 +79,18 @@ export default {
 			let whiteKeys = document.getElementsByClassName("white_key");
 			let blackKeys = document.getElementsByClassName("black_key");
 
+			if(value > 0 && this.store.notes.noteToPlay !== null){
+				console.log(this.store.notes.noteToPlay + '<- toPlay, ' + note + '<- played note')
+				if(this.store.notes.noteToPlay == note){
+					console.log("Correct!");
+					this.store.correct();
+				}else{
+					console.log("incorrect!");
+					this.store.incorrect();
+
+				}
+			}
+			
 			[].forEach.bind(whiteKeys,function(key){
 				if(key.dataset.note == note && key.dataset.octave == octave){
 					if(value > 0){
@@ -72,6 +100,7 @@ export default {
 					}
 					// console.log(key);
 					// console.log("WHITE NOTE PLAYED ON MIDI: " + note, octave);
+					
 				}
 			})();
 
@@ -94,7 +123,6 @@ export default {
 		const notes = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
 		
 		window.addEventListener('keydown', (e) => {
-
 			for(let i = 0; i < keyCodes.length; i++){
 				if(e.key.toLowerCase() == keyCodes[i] && e.repeat === false){
 					this.stopAnimation();i
@@ -102,7 +130,6 @@ export default {
 						this.$emit('onKeyboardInput', {octave: 4, note: notes[i], velocity: 127 });
 					}else{
 						let convertNote = {12: 0, 13: 1, 14: 2, 15: 3, 16: 4}
-						console.log();
 						this.$emit('onKeyboardInput', {octave: 5, note: convertNote[notes[i]], velocity: 127 });
 						
 					}
@@ -118,7 +145,6 @@ export default {
 							this.$emit('onKeyboardInput', {octave: 4, note: notes[i], velocity: 0 });
 						}else{
 							let convertNote = {12: 0, 13: 1, 14: 2, 15: 3, 16: 4}
-							console.log(convertNote[notes[i]]);
 							this.$emit('onKeyboardInput', {octave: 5, note: convertNote[notes[i]], velocity: 0 });
 						}
 				}

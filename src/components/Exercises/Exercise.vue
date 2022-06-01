@@ -1,12 +1,24 @@
+<script setup>
+
+</script>
+
 <template>
 	<section class="exercise">
 		<section class="exercise_one">
-			<section class="exercise_one_heading">
-				<h3>SCORE: 0/12</h3>
-				<p>Highscore: 6/12</p>
+			<section v-if="this.store.notes.started == true" class="exercise_one_heading">
+				<p>Round: {{store.notes.round}} / 12</p>
+				<span>Attempts left: {{store.notes.attempts}} </span>
+				<h3>SCORE: {{store.notes.score || 0}}</h3>
+				<p>Highscore: <span style="font-weight: 700">{{store.notes.highScore || 0}}</span></p>
 			</section>
 			<section class="exercise_one_button_wrapper">
-				<button class="button" @click="practiceNote()">play note</button>
+				<section>
+					<button v-if="store.notes.started == true && store.notes.noteToPlay !== null" class="button" @click="practiceNote()">listen again</button>
+					<button v-else-if="store.notes.started == true && store.notes.noteToPlay == null" class="button" @click="practiceNote()">Play Note</button>
+					<button v-else class="button" @click="startGame">Start Game</button>
+				</section>
+				
+				
 			</section>
 		</section>
 		<section class="exercise_divider">
@@ -22,13 +34,22 @@
 </template>
 
 <script>
-export default {
-	data(){
+import { useExerciseStore } from '@/stores/exercise';
 
+export default {
+	setup(){
+		const store = useExerciseStore();
+
+      return{
+        store
+      }
 	},
 	methods:{
 		practiceNote(){
 			this.$emit('practiceNote');
+		},
+		startGame(){
+			this.store.setGameState(true);
 		}
 	}
 	
@@ -50,9 +71,6 @@ export default {
 		width: 48%;
 		text-align: center;
 
-		&_heading{
-			
-		}
 
 		&_button_wrapper{
 			margin: 1rem;

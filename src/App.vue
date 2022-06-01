@@ -4,7 +4,9 @@
       <app-side-bar-nav @setCurrentPage='setCurrentPage'></app-side-bar-nav>
     </div>
     <div id="content">
-      <component @setCurrentPage='setCurrentPage' @playRandomNote = "playRandomNote" :is="currentPage" v-bind="cmpProps"/>
+      <p>{{store.notes.score}}</p>
+      <p>note played: {{store.notes.noteToPlay}}</p>
+      <component :is="currentPage" v-bind="cmpProps" @setCurrentPage='setCurrentPage' @playRandomNote = "playRandomNote" />
       <div id="keyboard">
         <app-keyboard ref="keyboard" @onKeyboardInput='onKeyboardInput' @playRandomNote='playRandomNote'></app-keyboard>
       </div>
@@ -39,8 +41,16 @@
 
   import 'bulma/css/bulma.css';
 
+  import { useExerciseStore } from '@/stores/exercise';
+  
   export default {
+    setup(){
+      const store = useExerciseStore();
 
+      return{
+        store
+      }
+    },
     data(){
       return{
         currentPage: 'app-lesson-page',
@@ -89,17 +99,30 @@
       },
 
       playRandomNote(){
-        console.log("Random Note!");
+        if(this.store.notes.started == false){
+          console.error("Cant play random note because note game not active");
+          
+        }else{
+          if(this.store.notes.noteToPlay == null){
+            var randomNote = Math.floor(Math.random() * (11 - 1 + 1)) + 1;
+            this.store.noteToPlay(randomNote)
+            console.log("random note: " + randomNote);
+          }
 
-        var randomNote = Math.floor(Math.random() * (11 - 1 + 1)) + 1;
-        let instrument = this.$refs.instrumentA;
+          let instrument = this.$refs.instrumentA;
+          
+          instrument.play(this.store.notes.noteToPlay, 4, 127);
+          setTimeout(() => instrument.play(this.store.notes.noteToPlay, 4, 0), 1000);
+          console.log(this.store.notes.noteToPlay + ': RANDOMNOTE')
+          
+        }
         
-        instrument.play(randomNote, 4, 127);
-        setTimeout(() => instrument.play(randomNote, 4, 0), 1000);
+        
+        
       },
 
       initializeEffects(effects, effectPacket){
-        console.log(effects);
+        // console.log(effects);
         this.addedEffect = effects;
         this.addedEffectPacket = effectPacket;
       },
@@ -109,7 +132,7 @@
       },
       
       setCurrentPage(cmp, contentId){
-        console.log(contentId);
+        
         this.currentPage = cmp;
         this.pageContent = contentId;
       },
@@ -124,10 +147,10 @@
     },
 
     mounted(){
-      var lessonOne = this.getJsonObjectById(Data["Practice"], 0);
-      var lessons = this.getJsonObject(Data["Lessons"]);
-      console.log(lessonOne);
-      console.log(lessons)
+      // var lessonOne = this.getJsonObjectById(Data["Practice"], 0);
+      // var lessons = this.getJsonObject(Data["Lessons"]);
+      // console.log(lessonOne);
+      // console.log(lessons)
       const midi = this.$refs.midiDevice;
       midi.start().then(() => {
         console.log("Started!");
@@ -231,7 +254,7 @@ body{
 <!--
 ToDo: 
 
-	- make notes practice page functional
+	- make note practice cap at 12 rounds
   - fix styling
 
 

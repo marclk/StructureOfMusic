@@ -12,7 +12,7 @@
 		</section>
 		<section class="practice-content"> 
 			<template>
-				<app-exercise></app-exercise>
+				<app-exercise @practiceNote="practiceNote"></app-exercise>
 			</template>
 		</section>
 	</section>

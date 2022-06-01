@@ -55,10 +55,6 @@
 
 <script>
 	export default{
-		data(){
-
-		},
-
 		methods:{
 			changePage(page, lessonNum){
 				console.log("nav link clicked!")
