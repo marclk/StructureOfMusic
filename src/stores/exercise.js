@@ -39,19 +39,30 @@ export const useExerciseStore = defineStore("exercise", {
 			if(this.notes.attempts > 1){
 				this.notes.attempts--;
 			}else{
-				this.notes.round++;
-				this.notes.attempts = 2;
-				this.notes.noteToPlay = null;
+				if(this.notes.round < 12){
+					this.notes.round++;
+					this.notes.attempts = 2;
+					this.notes.noteToPlay = null;
+				}else{
+					this.setGameState(false);
+				}
 			}
 		},
 		correct(){
 			this.notes.score++;
-			this.notes.round++;
-			this.notes.attempts = 2;
-			this.notes.noteToPlay = null;
 			if(this.notes.score > this.notes.highScore){
 				this.notes.highScore = this.notes.score;
 			}
+
+			if(this.notes.round < 12){
+				this.notes.round++;
+				this.notes.attempts = 2;
+				this.notes.noteToPlay = null;
+			}else{
+				this.setGameState(false);
+			}
+			
+			
 		},
 		noteToPlay(randomNote){
 			console.log("Note set: " + randomNote);
