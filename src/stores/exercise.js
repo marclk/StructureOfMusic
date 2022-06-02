@@ -11,8 +11,7 @@ export const useExerciseStore = defineStore("exercise", {
 				highScore: null,
 				noteToPlay: null,
 				playedNote: null,
-				
-			}
+			},
 		};
 	},
 	actions: {

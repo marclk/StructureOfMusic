@@ -4,11 +4,10 @@
       <app-side-bar-nav @setCurrentPage='setCurrentPage'></app-side-bar-nav>
     </div>
     <div id="content">
-      <p>{{store.notes.score}}</p>
-      <p>note played: {{store.notes.noteToPlay}}</p>
-      <component :is="currentPage" v-bind="cmpProps" @setCurrentPage='setCurrentPage' @playRandomNote = "playRandomNote" />
+      <component :is="currentPage" v-bind="cmpProps" @setCurrentPage='setCurrentPage' @playRandomNote="playRandomNote" />
       <div id="keyboard">
-        <app-keyboard ref="keyboard" @onKeyboardInput='onKeyboardInput' @playRandomNote='playRandomNote'></app-keyboard>
+        <component :is="keyboardType" ref="keyboard" @onKeyboardInput='onKeyboardInput' @playRandomNote='playRandomNote'></component>
+        <!-- <app-keyboard ref="keyboard" @onKeyboardInput='onKeyboardInput' @playRandomNote='playRandomNote'></app-keyboard> -->
       </div>
     </div>
 
@@ -35,6 +34,7 @@
   import GeneralOptions from './components/GeneralOptions/GeneralOptions.vue';
   import MidiHandler from './components/MidiComponents/MidiHandler';
   import Keyboard from './components/MidiComponents/Keyboard';
+  import PracticeKeyboard from './components/MidiComponents/PracticeKeyboard';
   import SynthA from './components/SynthA';
   import PolySynthA from './components/Instruments/PolySynthA';
   import EffectRack from './components/synthComponents/EffectRack';
@@ -42,18 +42,22 @@
   import 'bulma/css/bulma.css';
 
   import { useExerciseStore } from '@/stores/exercise';
+  import { useScaleStore } from '@/stores/scale';
   
   export default {
     setup(){
       const store = useExerciseStore();
+      const scaleStore = useScaleStore();
 
       return{
-        store
+        store,
+        scaleStore
       }
     },
     data(){
       return{
         currentPage: 'app-lesson-page',
+        keyboardType: 'app-keyboard',
         pageContent: 0,
         addedEffect: null,
         addedEffectPacket: null,
@@ -67,6 +71,7 @@
       appGeneralOptions: GeneralOptions,
       appMidiHandler: MidiHandler,
       appKeyboard: Keyboard,
+      appPracticeKeyboard: PracticeKeyboard,
       appPolySynthA: PolySynthA,
       appEffectRack: EffectRack
     },
@@ -116,9 +121,13 @@
           console.log(this.store.notes.noteToPlay + ': RANDOMNOTE')
           
         }
-        
-        
-        
+      
+      },
+
+      playRandomScale(){
+        Math.floor(Math.random() * (11 - 1 + 1)) + 1;
+        this.scaleStore.rootNote = Math.floor(Math.random() * (11 - 1 + 1)) + 1;
+        this.scaleStore.scaleToPlay();
       },
 
       initializeEffects(effects, effectPacket){
@@ -132,7 +141,12 @@
       },
       
       setCurrentPage(cmp, contentId){
-        
+        if(cmp == "app-practice-page"){
+          this.keyboardType = 'app-practice-keyboard';
+          console.log()
+        }else{
+          this.keyboardType = 'app-keyboard';
+        }
         this.currentPage = cmp;
         this.pageContent = contentId;
       },
@@ -147,10 +161,7 @@
     },
 
     mounted(){
-      // var lessonOne = this.getJsonObjectById(Data["Practice"], 0);
-      // var lessons = this.getJsonObject(Data["Lessons"]);
-      // console.log(lessonOne);
-      // console.log(lessons)
+      this.playRandomScale();
       const midi = this.$refs.midiDevice;
       midi.start().then(() => {
         console.log("Started!");
@@ -221,8 +232,8 @@ body{
  }
  
  #keyboard{
-   position: absolute;
-   bottom: 0;
+  position: absolute;
+  bottom: 0;
  }
 
  .margin-1rem{

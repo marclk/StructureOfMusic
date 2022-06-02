@@ -13,14 +13,14 @@
 <template lang="pug">
 section
 	.container
-		each octave in [1,2,3,4,5,6]
+		each octave in [4,5]
 			each note in [0,1,2,3,4,5,6,7,8,9,10,11]
 				- var input = note + 1 ;
 				- var noteName = ['"C"', '"C#"', '"D"', '"D#"', '"E"', '"F"', '"F#"', '"G"', '"G#"', '"A"', '"A#"', '"B"'];
 				if note == 0 || note == 2 || note == 4 || note == 5 || note == 7 || note == 9 || note == 11 
 					.white_key.key(style={'--note-name':  `${noteName[note]}`, 'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))' } data-note=`${note}` data-octave=`${octave}` data-noteName=`${noteName[note]}` v-on:mousedown.prevent=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`sendSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`, '') 
 				else if  note == 1 || note == 3 || note == 6 || note == 8 || note == 10
-					.black_key.key(style={'--note-name':  `${noteName[note]}`, 'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))' } data-note=`${note}` data-octave=`${octave}` data-noteName=`${noteName[note]}` v-on:mousedown=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`stopSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`, '')
+					.black_key.key(style={'--note-name':  `${noteName[note]}`, 'animation-delay': 'calc( 0.02s * (( 12 * '+ `${octave}` + ' - 12 ) + ' + `${note}` + '))' } data-note=`${note}` data-octave=`${octave}` data-noteName=`${noteName[note]}` v-on:mousedown=`sendSound(${octave}, ${note}, 127), stopAnimation();`, v-on:mouseup=`stopSound(${octave}, ${note}, 0), stopAnimation();`, v-on:mouseout=`sendSound(${octave}, ${note}, 0);`, '') 
 </template>
 
 <script>
@@ -114,6 +114,31 @@ export default {
 			})();
 		},
 
+		notesGameCheck(note, value){
+			if(value > 0 && this.store.notes.noteToPlay !== null){
+				console.log(this.store.notes.noteToPlay + '<- toPlay, ' + note + '<- played note')
+				if(this.store.notes.noteToPlay == note){
+					console.log("Correct!");
+					this.store.correct();
+				}else{
+					console.log("incorrect!");
+					this.store.incorrect();
+
+				}
+			}
+		},
+
+		scalesGameCheck(note, octave, value){
+			if(value > 0 && this.scaleStore.rootNote !== null){
+				let convertNote = {12: 0, 13: 1, 14: 2, 15: 3, 16: 4, 17: 5, 18: 6, 19: 7}
+				if(this.scaleStore.scale[this.scaleStore.step] = note){
+					this.scaleStore.step += 1;
+				}else {
+					this.scaleStore.incorrect;
+				}
+			}
+		}
+		
 	},
 	created(){
 		const keyCodes = ['q','2','w','3','e','r','5','t','6','y','7','u','i','9','o','0','p','[','=',']'];
@@ -137,13 +162,12 @@ export default {
 		window.addEventListener('keyup', (e) => {
 			for(let i = 0; i < keyCodes.length; i++){
 				if(e.key.toLowerCase() == keyCodes[i]){
-					
 					if(i <= 11){
-							this.$emit('onKeyboardInput', {octave: 4, note: notes[i], velocity: 0 });
-						}else{
-							let convertNote = {12: 0, 13: 1, 14: 2, 15: 3, 16: 4, 17: 5, 18: 6, 19:7}
-							this.$emit('onKeyboardInput', {octave: 5, note: convertNote[notes[i]], velocity: 0 });
-						}
+						this.$emit('onKeyboardInput', {octave: 4, note: notes[i], velocity: 0 });
+					}else{
+						let convertNote = {12: 0, 13: 1, 14: 2, 15: 3, 16: 4, 17: 5, 18: 6, 19:7}
+						this.$emit('onKeyboardInput', {octave: 5, note: convertNote[notes[i]], velocity: 0 });
+					}
 				}
 			}
 		});
@@ -157,11 +181,12 @@ section {
   width: 100%;
   height: 175px;
   border-radius: 4px;
+	margin-bottom: 3rem;
 }
 
 .container {
   margin: auto;
-  overflow: overlay;
+  /* overflow: overlay; */
   width: calc((49px * 19px)+(35px * 16px));
 	margin: 0 auto;
   padding-top: 15px;
@@ -181,8 +206,8 @@ section {
 .white_key {
   background-color: rgba(0,0,0,0);
   border:1px solid white;
-  height: 100px;
-  width: calc(12px * 1.6);
+  height: 170px;
+  width: calc(12px * 5);
   z-index: 1;
 
 	animation: pulseWhite 1.66s infinite;
@@ -196,7 +221,7 @@ section {
 }
 
 .white_key:active {
-  height: 98px;
+  height: 165px;
   border-radius: 3px;
 	box-shadow:
 			0 0 .25rem rgba(255, 255, 255, 1),
@@ -209,13 +234,14 @@ section {
 
 .white_key.active::before{ 
 	content: var(--note-name);
+	transform: scale(2);
 	display: block;
-	margin-top: -30px;
+	margin-top: -50px;
 	text-align: center;
 }
 
 .white_key.active {
-  height: 98px;
+  height: 165px;
   border-radius: 3px;
 	box-shadow:
 			0 0 .25rem rgba(255, 255, 255, 1),
@@ -228,10 +254,10 @@ section {
 
 .black_key {
   background-color: black;
-  height: 70px;
-  width: calc(10px * 1.6);
-  margin-left: -5px;
-  margin-right: -5px;
+  height: 120px;
+  width: calc(10px * 5);
+  margin-left: -20px;
+  margin-right: -20px;
   z-index: 2;
 
 	animation: pulseBlack 1.66s infinite;
@@ -246,7 +272,7 @@ section {
 }
 
 .black_key:active {
-  height: 68px;
+  height: 115px;
   border-radius: 2.5px;
 
 	box-shadow:
@@ -259,7 +285,7 @@ section {
 }
 
 .black_key.active {
-  height: 68px;
+  height: 115px;
   border-radius: 2.5px;
 	box-shadow:
 			0 0 .25rem rgba(255, 255, 255, 1),
@@ -272,9 +298,10 @@ section {
 
 .black_key.active::before{ 
 	content: var(--note-name);
+	transform: scale(2);
 	display: block;
 	text-align: center;
-	margin-top: -30px;
+	margin-top: -55px;
 }
 
 @keyframes pulseWhite{

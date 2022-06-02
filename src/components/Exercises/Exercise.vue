@@ -9,16 +9,14 @@
 				<p>Round: {{store.notes.round}} / 12</p>
 				<span>Attempts left: {{store.notes.attempts}} </span>
 				<h3>SCORE: {{store.notes.score || 0}}</h3>
-				<p>Highscore: <span style="font-weight: 700">{{store.notes.highScore || 0}}</span></p>
 			</section>
+			<p>Highscore: <span style="font-weight: 700">{{store.notes.highScore || 0}}</span></p>
 			<section class="exercise_one_button_wrapper">
 				<section>
-					<button v-if="store.notes.started == true && store.notes.noteToPlay !== null" class="button" @click="practiceNote()">listen again</button>
+					<button v-if="store.notes.started == true && store.notes.noteToPlay !== null" class="button" @click="practiceNote()">Listen Again</button>
 					<button v-else-if="store.notes.started == true && store.notes.noteToPlay == null" class="button" @click="practiceNote()">Play Note</button>
 					<button v-else class="button" @click="startGame">Start Game</button>
 				</section>
-				
-				
 			</section>
 		</section>
 		<section class="exercise_divider">
