@@ -4,7 +4,10 @@ export const useScaleStore = defineStore("scale", {
 	state: () =>{
 		return {
 			started: false,
-			options: {key: 'major'},
+			options: {
+				key: 'major',
+				mode: 'listen'
+			},
 			attempts: null,
 			round: 0,
 			score: null,
@@ -12,7 +15,6 @@ export const useScaleStore = defineStore("scale", {
 			rootNote: null,
 			scale: [],
 			step: 0,
-			playedNote: null
 		};
 	},
 	actions: {
@@ -26,7 +28,7 @@ export const useScaleStore = defineStore("scale", {
 			}else{
 				this.round = 0;
 				this.score = null;
-				this.noteToPlay = null;
+				this.rootNote = null;
 				this.playedNote = null;
 				this.attempts = null;
 			}
@@ -36,9 +38,6 @@ export const useScaleStore = defineStore("scale", {
 			this.score++;
 		},
 		incorrect(){
-			if(this.attempts > 1){
-				this.attempts--;
-			}else{
 				if(this.round < 5){
 					this.round++;
 					this.attempts = 2;
@@ -48,7 +47,6 @@ export const useScaleStore = defineStore("scale", {
 				}else{
 					this.setGameState(false);
 				}
-			}
 		},
 		correct(){
 			this.score++;
@@ -59,13 +57,15 @@ export const useScaleStore = defineStore("scale", {
 			if(this.round < 5){
 				this.round++;
 				this.attempts = 2;
-				this.noteToPlay = null;
+				this.rootNote = null;
 			}else{
 				this.setGameState(false);
 			}
 			
 		},
 		scaleToPlay() {
+      this.rootNote = Math.floor(Math.random() * (11 - 1 + 1)) + 1;
+			
 			if(this.options.key == 'major' && this.rootNote !== null){
 				let steps = [0, 2, 4, 5, 7, 9, 11];
 				
@@ -90,12 +90,12 @@ export const useScaleStore = defineStore("scale", {
 			}
 		},
 
-		playedNote(note){
-			this.playedNote = note;
-		},
-
 	},
 	getters:{
 		doubleNoteScore: (state) => state.score * 2,
+		nameRootNote(){
+			let noteName = ['"C"', '"C#"', '"D"', '"D#"', '"E"', '"F"', '"F#"', '"G"', '"G#"', '"A"', '"A#"', '"B"'];
+			return noteName[this.rootNote];
+		}
 	}
 });

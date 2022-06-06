@@ -12,9 +12,11 @@
 			<p class="lesson-heading-paragraph">{{paragraph}}</p>
 		</section>
 		<section class="lesson-content">
-			<youtube :video-id="videoId" :player-vars="playerVars" controls="0" rel="0" autoplay="0" ref="youtube" @playing="playing"></youtube>
+			
+			<youtube class="lesson-content-video" :video-id="videoData.videoId" :player-vars="playerVars" controls="0" rel="0" autoplay="0" ref="youtube" @playing="playing" ></youtube>
+		
 		</section>
-		<section>
+		<section class="lesson-button">
 			<button class="button" @click="startPractice()">Practice!</button>
 		</section>
 	</section>
@@ -51,7 +53,7 @@ export default{
 	},
 	methods: {
 		setVideoTiming(){
-			this.$refs.youtube.player.cueVideoById({'videoId': this.videoData.videoId, 'autoplay': 0, 'startSeconds': this.videoData.startSeconds, 'endSeconds': this.videoData.endSeconds});
+			this.$refs.youtube.player.cueVideoById({'videoId': 'rgaTLrZGlk0', 'autoplay': 0, 'startSeconds': this.videoData.startSeconds, 'endSeconds': this.videoData.endSeconds});
 		},
 		
 		startPractice(){
@@ -66,6 +68,10 @@ export default{
 		backToLesson(){
 			this.$emit('setCurrentPage', 'app-lesson-page', parseInt(this.id-1));
 		},
+
+		playing(){
+			console.log("Watching!");
+		}
 	},
 	mounted(){
 		this.setVideoTiming();
@@ -81,6 +87,9 @@ export default{
 </script>
 
 <style lang="scss">
+
+	$accent: #24E1D2;
+
 	.lesson-heading{
 		padding: 5rem 0 3rem 0;
 	}
@@ -98,4 +107,22 @@ export default{
 		width: 80%;
 		font-weight:700;
 	}
+
+	.lesson-content-video{
+		border-radius:.25rem;
+		box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(34, 34, 34, 0.7) 10px 10px 0px 0px;
+		transition: all .25s linear;
+		-ms-transition: all .25s linear;
+		-moz-transition: all .25s linear;
+		-webkit-transition: all .25s linear;
+		-o-transition: all .25s linear;
+		&:hover{
+		box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(34, 34, 34, 1) 16px 16px 0px 0px;
+		}
+
+	}
+
+	.lesson-button{
+			margin-top: 2rem!important;
+		}
 </style> 

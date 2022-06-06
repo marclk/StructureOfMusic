@@ -4,19 +4,19 @@
       <app-side-bar-nav @setCurrentPage='setCurrentPage'></app-side-bar-nav>
     </div>
     <div id="content">
-      <component :is="currentPage" v-bind="cmpProps" @setCurrentPage='setCurrentPage' @playRandomNote="playRandomNote" />
+      <component :is="currentPage" v-bind="cmpProps" @setCurrentPage='setCurrentPage' @playRandomNote="playRandomNote" @playRandomScale="playRandomScale"/>
       <div id="keyboard">
         <component :is="keyboardType" ref="keyboard" @onKeyboardInput='onKeyboardInput' @playRandomNote='playRandomNote'></component>
-        <!-- <app-keyboard ref="keyboard" @onKeyboardInput='onKeyboardInput' @playRandomNote='playRandomNote'></app-keyboard> -->
       </div>
     </div>
 
-    //invisible
-    <div class="display-none">
+    <!-- //invisible -->
+    <div id="synthsoul" class="display-none">
       <app-general-options @options="setGeneralOptions" ></app-general-options>
       <app-poly-synth-a ref="instrumentA" :effect="addedEffect" :effectPacket="addedEffectPacket" :generalOptionsPacket="addedGeneralOptionsPacket"></app-poly-synth-a>
       <app-midi-handler ref="midiDevice" @onDeviceInput='onDeviceInput'></app-midi-handler>
       <app-effect-rack @initializeEffects="initializeEffects"></app-effect-rack>
+      <component :is="keyboardType" ref="keyboard" @onKeyboardInput='onKeyboardInput' @playRandomNote='playRandomNote'></component>
     </div>
     
   </div>
@@ -30,6 +30,7 @@
   import SideBar from './components/Navigation/SideBar.vue';
   import Lesson from './components/Pages/Lesson.vue';
   import Practice from './components/Pages/Practice.vue';
+  import Home from './components/Pages/Home.vue';
   
   import GeneralOptions from './components/GeneralOptions/GeneralOptions.vue';
   import MidiHandler from './components/MidiComponents/MidiHandler';
@@ -56,7 +57,7 @@
     },
     data(){
       return{
-        currentPage: 'app-lesson-page',
+        currentPage: 'app-home-page',
         keyboardType: 'app-keyboard',
         pageContent: 0,
         addedEffect: null,
@@ -65,6 +66,7 @@
       }
     },
     components:{
+      appHomePage: Home,
       appLessonPage: Lesson,
       appPracticePage: Practice,
       appSideBarNav: SideBar,
@@ -125,9 +127,49 @@
       },
 
       playRandomScale(){
-        Math.floor(Math.random() * (11 - 1 + 1)) + 1;
-        this.scaleStore.rootNote = Math.floor(Math.random() * (11 - 1 + 1)) + 1;
-        this.scaleStore.scaleToPlay();
+        if(this.scaleStore.started == false){
+          console.error("Cant play random scale because scale game not active");       
+        }else{
+          if(this.scaleStore.rootNote == null){
+            this.scaleStore.scaleToPlay();
+          }
+        }
+
+        let instrument = this.$refs.instrumentA;
+        let keyboard = this.$refs.keyboard;
+        let convertNote = {12: 0, 13: 1, 14: 2, 15: 3, 16: 4, 17: 5, 18: 6, 19: 7, 20: 8, 21: 9, 22: 10}
+
+        if(this.scaleStore.options.mode == "listen"){
+          for(let i  = 0; i < this.scaleStore.scale.length; i++){
+            if(this.scaleStore.scale[i] > 11){
+              setTimeout(() => 
+                (instrument.play(convertNote[this.scaleStore.scale[i]], 5, 127),
+                keyboard.setKeyStyle(convertNote[this.scaleStore.scale[i]], 5, 127)),
+                250 + (500 * i));
+            
+              setTimeout(() => 
+                (instrument.play(convertNote[this.scaleStore.scale[i]], 5, 0), keyboard.setKeyStyle(convertNote[this.scaleStore.scale[i]], 5, 0)) , 500 + (500 * i));  
+            }else{
+              setTimeout(() => 
+                (instrument.play(this.scaleStore.scale[i], 4, 127),
+                keyboard.setKeyStyle(this.scaleStore.scale[i], 4, 127)),
+                250 + (500 * i));
+            
+              setTimeout(() => 
+                (instrument.play(this.scaleStore.scale[i], 4, 0), keyboard.setKeyStyle(this.scaleStore.scale[i], 4, 0)) , 500 + (500 * i));  
+            }
+          }
+        }else if(this.scaleStore.options.mode == "blind"){
+          instrument.play(this.scaleStore.rootNote, 4, 127);
+          keyboard.setKeyStyle(this.scaleStore.rootNote, 4, 127);
+        
+          setTimeout(() => (instrument.play(this.scaleStore.rootNote, 4, 0), keyboard.setKeyStyle(this.scaleStore.rootNote, 4, 0)) , 1000);
+        }
+        
+
+        
+        console.log(this.scaleStore.rootNote + ': RANDOMNOTE')
+        
       },
 
       initializeEffects(effects, effectPacket){
@@ -161,7 +203,6 @@
     },
 
     mounted(){
-      this.playRandomScale();
       const midi = this.$refs.midiDevice;
       midi.start().then(() => {
         console.log("Started!");
@@ -192,8 +233,25 @@
             practiceLink: practice[this.pageContent].practiceLink,
             
           }; 
+        }else if(this.currentPage === "app-home-page"){
+          let home = this.getJsonObject(Data["HomeScreen"]);
+            
+          return {
+            id: home[this.pageContent].id,
+            number: home[this.pageContent].number,
+            title: home[this.pageContent].title,
+            paragraph: home[this.pageContent].paragraph,
+            
+          };
+        }else if (this.currentPage === "app-overview-page"){
+          let overview = this.getJsonObject(Data["Lessons"]);
+          return {
+              id: overview[this.pageContent].id,
+              number: overview[this.pageContent].number,
+              title: overview[this.pageContent].title,
+            };
         }else{
-          return false;
+          return null;
         }
       }
     }
@@ -201,6 +259,41 @@
 </script>
 
 <style lang="scss">
+
+  $accent: #24E1D2;
+
+@font-face {
+  font-family: "s";
+  src: url("./assets/fonts/Test Söhne Breit/test-soehne-breit-leicht.woff2");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "s";
+  src: url("./assets/fonts/Test Söhne Breit/test-soehne-breit-kraftig.woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "s";
+  src: url("./assets/fonts/Test Söhne Breit/test-soehne-breit-halbfett.woff2");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "s";
+  src: url("./assets/fonts/Test Söhne Breit/test-soehne-breit-dreiviertelfett.woff2");
+  font-weight: 600;
+}
+
+h1,h2,h3,h4,h5,h6{
+  font-family: "s"!important;
+}
+
+h1{
+  font-size: 5rem!important;
+}
+
 html{
   background-color: #121212;
   overflow-y: hidden;
@@ -210,6 +303,7 @@ body{
   background:  #121212;
   font-family: monospace;
   color: white!important;
+  font-size: 1.3rem;
 }
  #app{
   width: 100%;
@@ -221,7 +315,7 @@ body{
   height:100%;
   position: fixed;
   z-index: 1;
-  overflow:auto;
+  // overflow:auto;
  }
  
  #content{
@@ -229,6 +323,16 @@ body{
    height: 100%;
    margin-left: auto;
    margin-right: 0;
+   padding-top: 2rem;
+ }
+
+ #synthsoul{
+   width: 70%;
+   height: 100%;
+   margin-top: 10px;
+   margin-left: auto;
+   margin-right: 5rem;
+   margin-bottom: -20rem;
  }
  
  #keyboard{
@@ -244,6 +348,7 @@ body{
    padding: 1rem;
    background-color: black;
    border: 2px solid white;
+   
  }
 
  .display-none{

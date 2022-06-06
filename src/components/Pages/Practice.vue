@@ -12,7 +12,7 @@
 		</section>
 		<section class="practice-content"> 
 			<template>
-				<app-exercise @practiceNote="practiceNote"></app-exercise>
+				<app-exercise @practiceNote="practiceNote" @practiceScale="practiceScale"></app-exercise>
 			</template>
 		</section>
 	</section>
@@ -66,6 +66,10 @@ export default{
 
 		practiceNote(){
 			this.$emit('playRandomNote');
+		},
+
+		practiceScale(){
+			this.$emit('playRandomScale');
 		}
 	},
 	mounted(){

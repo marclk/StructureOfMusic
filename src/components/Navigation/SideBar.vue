@@ -56,13 +56,14 @@
 <script>
 	export default{
 		methods:{
-			changePage(page, lessonNum){
+			changePage(page, num){
 				console.log("nav link clicked!")
 				switch(page){
 					case 'home':
+						this.$emit('setCurrentPage', 'app-home-page', num);
 						break;
 					case 'lessons':
-						this.$emit('setCurrentPage', 'app-lesson-page', lessonNum);
+						this.$emit('setCurrentPage', 'app-lesson-page', num);
 						break;
 					case 'playground':
 						break;
@@ -81,7 +82,9 @@
 
 <style lang="scss">
 	.navMain{
-		background-color: rgb(70, 70, 70);
+		background-color: #212121;
+		border-radius: .25rem;
+		
 	}
 
 	header {
@@ -90,7 +93,7 @@
 	}
 
 	.logo{
-		background-color: #212121;
+		background-color: #121212;
 		text-align: center;
 		padding: 1rem;
 	}
@@ -115,10 +118,17 @@
 					&:hover{
 						cursor: pointer;
 						background-color: rgb(170,25,25);
+						&>a{
+							color:black;
+						}
 					}
 
 					& > a{
 						color: white;
+
+						&:hover{
+							color: black;
+						}
 					}
 				}
 			}

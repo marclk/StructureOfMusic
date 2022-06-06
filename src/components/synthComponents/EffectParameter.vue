@@ -15,7 +15,7 @@
 			/>
 			<div class="knob"></div>
 		</div>
-		<h3>{{this.valName}}</h3>
+		<p>{{this.valName}}</p>
 		<span v-if=" this.rangeType == 's' " id="envelope=attack-value" class="tag is-dark">{{ this.parameterValue + 's' }}</span>
 		<span v-else id="envelope-slider-value" class="tag is-dark">{{ this.parameterValue }} </span>
 	</div>
@@ -151,8 +151,8 @@ export default {
 .nested-column{
 	text-align: center;
 
-	& > h3{
-		font-size: 10px;
+	& > p{
+		font-size: 12px!important;
 		text-align: center;
 	}
 }

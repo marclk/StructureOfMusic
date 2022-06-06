@@ -350,11 +350,12 @@ input[type=range] {
   opacity: 0;
   z-index: 2;
   transform: rotate(-65deg);
+	
 }
 
 h1 {
 	--neon-text-color: #ff0000;
-	font-family: monospace;
+	font-family: monospace!important;
   font-size: 3rem;
   font-weight: 500;
 	text-align: center;
