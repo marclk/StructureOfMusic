@@ -66,6 +66,7 @@
 						this.$emit('setCurrentPage', 'app-lesson-page', num);
 						break;
 					case 'playground':
+						this.$emit('setCurrentPage', 'app-playground', num);
 						break;
 					case 'hub':
 						break;
