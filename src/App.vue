@@ -11,14 +11,18 @@
     </div>
 
     <!-- //invisible -->
-    <div id="synthsoul" class="display-none">
+    <div v-if="this.currentPage == 'app-playground'" id="synthsoul">
       <app-general-options @options="setGeneralOptions" ></app-general-options>
       <app-poly-synth-a ref="instrumentA" :effect="addedEffect" :effectPacket="addedEffectPacket" :generalOptionsPacket="addedGeneralOptionsPacket"></app-poly-synth-a>
       <app-midi-handler ref="midiDevice" @onDeviceInput='onDeviceInput'></app-midi-handler>
       <app-effect-rack @initializeEffects="initializeEffects"></app-effect-rack>
-      <component :is="keyboardType" ref="keyboard" @onKeyboardInput='onKeyboardInput' @playRandomNote='playRandomNote'></component>
     </div>
-    
+    <div v-else class="display-none">
+      <app-general-options @options="setGeneralOptions" ></app-general-options>
+      <app-poly-synth-a ref="instrumentA" :effect="addedEffect" :effectPacket="addedEffectPacket" :generalOptionsPacket="addedGeneralOptionsPacket"></app-poly-synth-a>
+      <app-midi-handler ref="midiDevice" @onDeviceInput='onDeviceInput'></app-midi-handler>
+      <app-effect-rack @initializeEffects="initializeEffects"></app-effect-rack>
+    </div>
   </div>
 </template>
 

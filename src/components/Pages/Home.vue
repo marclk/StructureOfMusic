@@ -5,9 +5,9 @@
 			<p class="home-heading-paragraph">{{paragraph}}</p>
 		</section>
 		<section class="home-content">
-			<p>Get started with our <br/> <a href="#">Lessons</a></p>
-			<p>Play around in our <br/> <a href="#">Playground</a></p>
-			<p>Find inspiration in our <br/> <a href="#">Knowledge Hub</a></p>
+			<p>Get started with our <br/> <a href="#" @click="goToLesson()">Lessons</a></p>
+			<p>Play around in our <br/> <a href="#" @click="goToPlayground()">Playground</a></p>
+			<p>Find inspiration in our <br/> <a href="#" @click="goToLesson()">Knowledge Hub</a></p>
 		</section>
 	</section>
 </template>
@@ -35,6 +35,12 @@ export default{
 			console.log(fullString);
 			
 			return fullString;
+		},
+		goToLesson() { 
+			this.$emit('setCurrentPage', 'app-lesson-page', 0);
+		},
+		goToPlayground() { 
+			this.$emit('setCurrentPage', 'app-playground', 0);
 		},
 	}
 
